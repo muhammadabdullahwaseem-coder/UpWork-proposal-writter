@@ -6,6 +6,11 @@ A multi-agent AI system that evaluates Upwork job posts against your portfolio a
 ![RAG](https://img.shields.io/badge/RAG-ChromaDB-green)
 ![LLM](https://img.shields.io/badge/LLM-Claude-purple)
 ![UI](https://img.shields.io/badge/UI-Streamlit-red)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://upwork-proposal-writter.streamlit.app/)
+
+> **🌐 Live Demo (Preview):** [upwork-proposal-writter.streamlit.app](https://upwork-proposal-writter.streamlit.app/)  
+> *⚠️ Note: This is an early preview demo currently in active development. The fully functional production release will be available soon.*
+
 
 ---
 
