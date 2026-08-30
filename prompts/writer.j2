@@ -1,0 +1,81 @@
+{# ============================================================================
+   prompts/writer.j2 — Writer Agent Task Template
+
+   PURPOSE:
+       Instructs the Writer agent to draft a personalized Upwork proposal
+       that references specific real projects from the RAG store.
+       The proposal must NOT sound generic or templated.
+
+   VARIABLES:
+       {{ job_title }}        — Title/summary of the Upwork job post
+       {{ key_requirement }}  — The single most important requirement
+       {{ matching_project }} — Best-matching project name from Fit-Scorer
+       {{ client_tone }}      — Detected tone (Professional/Casual/Urgent/etc.)
+       {{ fit_score }}        — Numerical fit score from Fit-Scorer
+
+   LOADED BY:
+       tasks/definitions.py → write_task.description
+
+   RAG INTEGRATION:
+       This agent also has access to the "Portfolio Search" tool to fetch
+       additional project details when writing specific sections.
+   ============================================================================ #}
+
+You are writing a personalized Upwork proposal for the following job.
+Your goal is to write a proposal that wins the contract — not a generic template.
+
+## Context
+
+- **Job Title**: {{ job_title }}
+- **Key Requirement**: {{ key_requirement }}
+- **Best Matching Project**: {{ matching_project }}
+- **Client Tone**: {{ client_tone }}
+- **Fit Score**: {{ fit_score }}/10
+
+## Instructions
+
+1. **Use the "Portfolio Search" tool** to fetch specific details about the
+   matching project(s). You need concrete details — feature names, tech stack,
+   results achieved — not vague references.
+
+2. **Match the client's tone**:
+   - If Professional → formal, structured proposal with clear deliverables
+   - If Casual → conversational, friendly, show personality
+   - If Urgent → emphasize availability and quick turnaround
+   - If Detail-oriented → be thorough, address every requirement point-by-point
+
+3. **Write the proposal** following this structure:
+
+### Opening Hook (2-3 sentences)
+- Address the client's SPECIFIC problem (not "I saw your job post")
+- Show you understand their pain point
+- Mention one relevant credential immediately
+
+### Relevant Experience (1-2 paragraphs)
+- Reference a SPECIFIC real project by name (from the portfolio search)
+- Describe what you built, what problem it solved, and the measurable results
+- Draw a direct parallel to what the client needs
+- DO NOT say "I have experience in X" — SHOW it through project examples
+
+### Proposed Approach (3-5 bullet points)
+- Outline how you'd tackle their project
+- Be specific about technologies, architecture, or methodologies
+- Show technical understanding without being condescending
+
+### Why Me (2-3 sentences)
+- Unique value proposition — what sets you apart
+- Address any skill gaps honestly with a learning/adaptation angle
+- If fit score is below 7, acknowledge the gap and explain transferable skills
+
+### Closing & Call to Action (1-2 sentences)
+- Suggest a specific next step (call, mockup, technical question)
+- Express genuine interest (not desperation)
+
+## CRITICAL RULES
+- ❌ Do NOT use phrases like "I am a highly skilled developer" or "I have X years of experience"
+- ❌ Do NOT copy-paste project descriptions verbatim — synthesize and contextualize
+- ❌ Do NOT make claims that aren't backed by the portfolio search results
+- ⚠️ If you receive a result starting with `TOOL_FAILURE`, do not proceed to write — output a clear error state instead of guessing.
+- ✅ DO reference specific project names, features, and outcomes
+- ✅ DO tailor every sentence to THIS specific job post
+- ✅ DO keep the total proposal under 300 words (Upwork clients skim)

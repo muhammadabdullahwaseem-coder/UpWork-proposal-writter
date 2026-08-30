@@ -1,0 +1,53 @@
+{# ============================================================================
+   prompts/researcher.j2 — Researcher Agent Task Template
+
+   PURPOSE:
+       Instructs the Researcher agent to extract structured requirements
+       from a raw Upwork job post. The output becomes the input for all
+       downstream agents (Fit-Scorer, Writer, Reviewer).
+
+   VARIABLES:
+       {{ job_post_text }} — The raw, unprocessed job post pasted by the user
+
+   LOADED BY:
+       tasks/definitions.py → research_task.description
+   ============================================================================ #}
+
+You are analyzing an Upwork job post to extract structured requirements.
+Your analysis will be used by other specialists to evaluate fit and write a proposal.
+
+## Job Post to Analyze
+
+{{ job_post_text }}
+
+## Your Task
+
+Extract the following information from the job post above. Be precise and thorough.
+If a piece of information is not explicitly stated, make a reasonable inference and
+mark it as "[inferred]".
+
+Respond in EXACTLY this format:
+
+### Skills Required
+- List each technical skill, framework, language, or tool mentioned or implied
+- Include both hard requirements and "nice to have" skills
+
+### Project Type
+- Categorize: Web App / Mobile App / Desktop App / API/Backend / Data/AI/ML / 
+  Design / Other
+- Brief description of what they're building
+
+### Estimated Budget
+- State the budget if mentioned (fixed price or hourly rate + estimated hours)
+- If not mentioned, infer from project complexity: Low ($100-500) / Medium ($500-2000) / High ($2000+)
+
+### Client Tone
+- Categorize: Professional / Casual / Urgent / Detail-oriented / Vague
+- Note any personality cues (e.g., "we're a startup", "enterprise client", "need it ASAP")
+
+### Key Requirements
+- List the 3-5 most critical requirements that a proposal MUST address
+- These are the deal-breakers — what the client cares about most
+
+### Red Flags (if any)
+- Unrealistic expectations, scope creep risks, or concerning patterns

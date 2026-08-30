@@ -1,0 +1,57 @@
+# ============================================================
+# Upwork Job Fit & Proposal Generator — .gitignore
+# ============================================================
+
+# --- Secrets & API Keys (NEVER commit these) ---
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# --- ChromaDB Vector Store (auto-rebuilt on first run) ---
+chroma_store/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+MANIFEST
+
+# --- Virtual Environments ---
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Streamlit ---
+.streamlit/secrets.toml
+
+# --- Logs ---
+tool_invocations.log
+*.log
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*.ipynb
+
+# --- IDE & Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- OS ---
+.DS_Store
+.AppleDouble
+.LSOverride

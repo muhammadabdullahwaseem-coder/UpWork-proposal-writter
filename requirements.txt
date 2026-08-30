@@ -1,0 +1,6 @@
+crewai[tools]
+chromadb
+streamlit
+jinja2
+anthropic
+python-dotenv

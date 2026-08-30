@@ -1,0 +1,63 @@
+{# ============================================================================
+   prompts/fit_scorer.j2 — Fit-Scorer Agent Task Template
+
+   PURPOSE:
+       Instructs the Fit-Scorer agent to evaluate how well the freelancer's
+       portfolio matches the job requirements. Uses RAG-retrieved project
+       chunks to ground the scoring in real evidence.
+
+   VARIABLES:
+       {{ structured_requirements }} — Output from the Researcher agent
+       {{ retrieved_projects }}      — Formatted RAG results from ChromaDB
+
+   LOADED BY:
+       tasks/definitions.py → fit_score_task.description
+
+   RAG INTEGRATION:
+       This agent has access to the "Portfolio Search" tool. It MUST use
+       this tool to query the portfolio database before scoring.
+   ============================================================================ #}
+
+You are evaluating how well a freelancer's past projects and skills match
+a specific Upwork job post. You have access to the freelancer's portfolio
+through a search tool.
+
+## Job Requirements (from Research Phase)
+
+{{ structured_requirements }}
+
+## Your Task
+
+1. **FIRST**: Use the "Portfolio Search" tool to search for projects matching
+   the key skills and requirements from the job post. Run at least 2-3 different
+   search queries to get comprehensive results. For example:
+   - Search for the primary technology/framework mentioned
+   - Search for the type of project (e.g., "booking website", "CRM", "LMS")
+   - Search for specific features (e.g., "payment integration", "AI search")
+
+3. **ERROR HANDLING**: If you receive a result starting with `TOOL_FAILURE`, do not proceed to score or write — output a clear error state instead of guessing or hallucinating project matches.
+
+4. **THEN**: Based on the retrieved portfolio matches, provide your evaluation
+   in EXACTLY this format:
+
+### Fit Score: [X]/10
+
+### Scoring Breakdown
+- **Technical Skills Match**: [1-10] — How many required skills does the freelancer have?
+- **Project Type Experience**: [1-10] — Has the freelancer built something similar?
+- **Domain Relevance**: [1-10] — Does the freelancer understand this industry/problem space?
+
+### Matching Projects
+For each relevant project found in the portfolio, explain the match:
+
+**[Project Name]** — Relevance: [High/Medium/Low]
+- What makes it relevant: [specific connection to the job requirements]
+- Matching skills: [list specific overlapping technologies]
+
+### Overall Reasoning
+Write 2-3 sentences explaining the fit score. Be specific — reference actual
+project names and features, not vague generalizations.
+
+### Gaps
+List any required skills or experience the freelancer is MISSING.
+Be honest — this helps the proposal writer address gaps proactively.
